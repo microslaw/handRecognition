@@ -14,7 +14,7 @@ global canvas
 delay = 10
 
 # take picture from camera
-def getFrame():
+def getRGBFrame():
     cap = cv.VideoCapture(0)
     if not cap.isOpened():
         print("Cannot open camera")
@@ -24,13 +24,14 @@ def getFrame():
     if not ret:
         print("Can't receive frame. Exiting ...")
         exit()
-    return frame
+    rgbFrame = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
+    return rgbFrame
 
 def createUi():
     global mainWindow, canvas
     mainWindow = tk.Tk()
     canvas = tk.Canvas(mainWindow, width = 400, height = 400, bg=blue)
-    canvas.grid(row = 0, column = 0)
+    canvas.grid(row = 0, colcumn = 0)
 
     mainWindow.geometry("800x800")
     mainWindow.configure(bg=black)
@@ -38,16 +39,15 @@ def createUi():
     
 
 def updateUi():
-    frame = getFrame()
-    
+    frame = getRGBFrame()
     photo = ImageTk.PhotoImage(image = Image.fromarray(frame))
-    canvas.create_image(0, 0, image = photo)
+    canvas.configure(image = photo)
     mainWindow.after(delay, updateUi)
 
     
 
 
 createUi()
-#updateUi()
+updateUi()
 mainWindow.mainloop()
 
