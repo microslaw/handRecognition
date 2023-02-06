@@ -22,7 +22,7 @@ def getRGBFrame():
 
     ret, frame = cap.read()
     if not ret:
-        print("Can't receive frame. Exiting ...")
+        print("Can not receive frame")
         exit()
     rgbFrame = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
     return rgbFrame
@@ -39,8 +39,9 @@ def createUi():
     
 
 def updateUi():
-    frame = getRGBFrame()
-    photo = ImageTk.PhotoImage(image = Image.fromarray(frame))
+    arrayFrame = getRGBFrame()
+    frame = Image.fromarray(arrayFrame)
+    photo = ImageTk.PhotoImage(image = frame)
     imgHolder.configure(image = photo)
     mainWindow.after(delay, updateUi)
 
