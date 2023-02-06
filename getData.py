@@ -10,12 +10,10 @@ blue = "#0000a0"
 global mainWindow
 global imgHolder
 
-
 delay = 10
 
 # take picture from camera
-def getRGBFrame():
-    cap = cv.VideoCapture(0)
+def getRGBFrame(cap):
     if not cap.isOpened():
         print("Cannot open camera")
         exit()
@@ -27,28 +25,24 @@ def getRGBFrame():
     rgbFrame = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
     return rgbFrame
 
-def createUi():
-    global mainWindow, imgHolder
-    mainWindow = tk.Tk()
-    imgHolder = tk.Label(mainWindow, width = 400, height = 400, bg=blue)
-    imgHolder.grid(row = 0, column = 0)
-
-    mainWindow.geometry("800x800")
-    mainWindow.configure(bg=black)
-
     
 
 def updateUi():
-    arrayFrame = getRGBFrame()
+    arrayFrame = getRGBFrame(cap)
     frame = Image.fromarray(arrayFrame)
     photo = ImageTk.PhotoImage(image = frame)
     imgHolder.configure(image = photo)
     mainWindow.after(delay, updateUi)
 
-    
+cap = cv.VideoCapture(0)
+mainWindow = tk.Tk()
+imgHolder = tk.Label(mainWindow, width = 400, height = 400, bg=blue)
+imgHolder.grid(row = 0, column = 0)
+
+mainWindow.geometry("800x800")
+mainWindow.configure(bg=black)
 
 
-createUi()
 updateUi()
 mainWindow.mainloop()
 
