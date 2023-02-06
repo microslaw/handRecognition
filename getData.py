@@ -8,7 +8,7 @@ black = "#000000"
 white = "#ffffff"
 blue = "#0000a0"
 global mainWindow
-global canvas
+global imgHolder
 
 
 delay = 10
@@ -28,10 +28,10 @@ def getRGBFrame():
     return rgbFrame
 
 def createUi():
-    global mainWindow, canvas
+    global mainWindow, imgHolder
     mainWindow = tk.Tk()
-    canvas = tk.Canvas(mainWindow, width = 400, height = 400, bg=blue)
-    canvas.grid(row = 0, colcumn = 0)
+    imgHolder = tk.Label(mainWindow, width = 400, height = 400, bg=blue)
+    imgHolder.grid(row = 0, column = 0)
 
     mainWindow.geometry("800x800")
     mainWindow.configure(bg=black)
@@ -41,7 +41,7 @@ def createUi():
 def updateUi():
     frame = getRGBFrame()
     photo = ImageTk.PhotoImage(image = Image.fromarray(frame))
-    canvas.configure(image = photo)
+    imgHolder.configure(image = photo)
     mainWindow.after(delay, updateUi)
 
     
