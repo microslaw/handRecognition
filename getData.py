@@ -10,6 +10,8 @@ blue = "#0000a0"
 
 delay = 10
 
+videoResolution = 256
+
 # take picture from camera
 def getRGBFrame():
     global cap
@@ -35,7 +37,7 @@ def updateUi():
     images = dict()
 
     images["normal"] = arrayFrame
-    grayFrame = simplifyImage(arrayFrame)
+    grayFrame = simplifyImage(arrayFrame, videoResolution)
     images["treshold"] = tresholdImage(grayFrame)
     images["laplacian"] = laplacianImage(grayFrame)
     
@@ -56,23 +58,24 @@ def updateUi():
 def saveFrame():
     saveFrame.count += 1
     arrayFrame = getRGBFrame()
-    filepath = "photos/frame%d.jpg" % (saveFrame.count)
+    filepath = "frame%d.jpg" % (saveFrame.count)
+    print(filepath)
     cv.imwrite(filepath, arrayFrame)
 saveFrame.count = 0
 
 cap = cv.VideoCapture(0)
 mainWindow = tk.Tk()
-imgHolder1 = tk.Label(mainWindow, width = 400, height = 400, bg=blue)
+imgHolder1 = tk.Label(mainWindow, width = videoResolution, height = videoResolution, bg=blue)
 imgHolder1.grid(row = 0, column = 0)
-imgHolder2 = tk.Label(mainWindow, width = 400, height = 400, bg=blue)
+imgHolder2 = tk.Label(mainWindow, width = videoResolution, height = videoResolution, bg=blue)
 imgHolder2.grid(row = 0, column = 1)
-imgHolder3 = tk.Label(mainWindow, width = 400, height = 400, bg=blue)
+imgHolder3 = tk.Label(mainWindow, width = videoResolution, height = videoResolution, bg=blue)
 imgHolder3.grid(row = 1, column = 0)
 saveButton = tk.Button(mainWindow, text = "Save", width = 50, height = 10, bg=blue, anchor="se", command = saveFrame)
 saveButton.grid(row = 1, column = 1)
 
-
-mainWindow.geometry("800x800")
+resXres = "%sx%s" % (videoResolution, videoResolution)
+mainWindow.geometry(resXres)
 mainWindow.configure(bg=black)
 
 
