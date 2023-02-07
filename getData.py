@@ -7,8 +7,6 @@ from PIL import Image, ImageTk
 black = "#000000"
 white = "#ffffff"
 blue = "#0000a0"
-global mainWindow
-global imgHolder1
 
 delay = 10
 
@@ -37,8 +35,9 @@ def updateUi():
     images = dict()
 
     images["normal"] = arrayFrame
-    images["treshold"] = tresholdImage(arrayFrame)
-    images["laplacian"] = laplacianImage(arrayFrame)
+    grayFrame = simplifyImage(arrayFrame)
+    images["treshold"] = tresholdImage(grayFrame)
+    images["laplacian"] = laplacianImage(grayFrame)
     
     for key, value in images.items():
         images[key] = convertToTkinterImage(value)
@@ -54,6 +53,13 @@ def updateUi():
     
     mainWindow.after(delay, updateUi)
 
+def saveFrame():
+    saveFrame.count += 1
+    arrayFrame = getRGBFrame()
+    filepath = "photos/frame%d.jpg" % (saveFrame.count)
+    cv.imwrite(filepath, arrayFrame)
+saveFrame.count = 0
+
 cap = cv.VideoCapture(0)
 mainWindow = tk.Tk()
 imgHolder1 = tk.Label(mainWindow, width = 400, height = 400, bg=blue)
@@ -62,6 +68,8 @@ imgHolder2 = tk.Label(mainWindow, width = 400, height = 400, bg=blue)
 imgHolder2.grid(row = 0, column = 1)
 imgHolder3 = tk.Label(mainWindow, width = 400, height = 400, bg=blue)
 imgHolder3.grid(row = 1, column = 0)
+saveButton = tk.Button(mainWindow, text = "Save", width = 50, height = 10, bg=blue, anchor="se", command = saveFrame)
+saveButton.grid(row = 1, column = 1)
 
 
 mainWindow.geometry("800x800")
