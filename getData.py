@@ -13,7 +13,8 @@ global imgHolder
 delay = 10
 
 # take picture from camera
-def getRGBFrame(cap):
+def getRGBFrame():
+    global cap
     if not cap.isOpened():
         print("Cannot open camera")
         exit()
@@ -28,10 +29,11 @@ def getRGBFrame(cap):
     
 
 def updateUi():
-    arrayFrame = getRGBFrame(cap)
+    arrayFrame = getRGBFrame()
     frame = Image.fromarray(arrayFrame)
     photo = ImageTk.PhotoImage(image = frame)
     imgHolder.configure(image = photo)
+    imgHolder.image = photo
     mainWindow.after(delay, updateUi)
 
 cap = cv.VideoCapture(0)

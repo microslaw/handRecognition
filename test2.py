@@ -9,15 +9,20 @@ mainWindow = tk.Tk(screenName="Camera Capture")
 lmain = tk.Label(mainWindow)
 lmain.pack()
 
-def show_frame():
+def getRGB(cap):
+
     _, frame = cap.read()
     cv2image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGBA)
+    return cv2image
 
+
+def update():
+    cv2image = getRGB(cap)
     prevImg = Image.fromarray(cv2image)
     imgtk = ImageTk.PhotoImage(image=prevImg)
-    lmain.imgtk = imgtk
+    lmain.cokolwiek = imgtk
     lmain.configure(image=imgtk)
-    lmain.after(10, show_frame)
- 
-show_frame()
+    lmain.after(10, update)
+
+update()
 mainWindow.mainloop()
