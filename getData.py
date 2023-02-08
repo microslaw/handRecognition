@@ -38,7 +38,7 @@ def updateUi():
 
     images["normal"] = cv.resize(arrayFrame, (videoResolution, videoResolution))
     images["treshold"] = formatImage(arrayFrame, videoResolution)
-    images["laplacian"] = laplacianImage(arrayFrame, videoResolution)
+    images["simple"] = simplifyImage(arrayFrame, videoResolution)
     
     for key, image in images.items():
         images[key] = convertToTkinterImage(image)
@@ -49,8 +49,8 @@ def updateUi():
     imgHolder2.configure(image = images["treshold"])
     imgHolder2.image = images["treshold"]
 
-    imgHolder3.configure(image = images["laplacian"])
-    imgHolder3.image = images["laplacian"]
+    imgHolder3.configure(image = images["simple"])
+    imgHolder3.image = images["simple"]
     
     mainWindow.after(delay, updateUi)
 
@@ -58,7 +58,6 @@ def saveFrame():
     saveFrame.count += 1
     arrayFrame = getRGBFrame()
     filepath = "frame%d.jpg" % (saveFrame.count)
-    print(filepath)
     cv.imwrite(filepath, arrayFrame)
 saveFrame.count = 0
 
@@ -67,9 +66,9 @@ mainWindow = tk.Tk()
 imgHolder1 = tk.Label(mainWindow, width = videoResolution, height = videoResolution, bg=blue)
 imgHolder1.grid(row = 0, column = 0)
 imgHolder2 = tk.Label(mainWindow, width = videoResolution, height = videoResolution, bg=blue)
-imgHolder2.grid(row = 0, column = 1)
+imgHolder2.grid(row = 1, column = 0)
 imgHolder3 = tk.Label(mainWindow, width = videoResolution, height = videoResolution, bg=blue)
-imgHolder3.grid(row = 1, column = 0)
+imgHolder3.grid(row = 0, column = 1)
 saveButton = tk.Button(mainWindow, text = "Save", width = 50, height = 10, bg=blue, anchor="se", command = saveFrame)
 saveButton.grid(row = 1, column = 1)
 

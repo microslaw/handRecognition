@@ -18,7 +18,9 @@ def simplifyImage(image, resolution=512):
 def laplacianImage(image, finalResolution=512):
     simplifyImage(image, finalResolution)
     laplacian = cv.Laplacian(image, cv.CV_32F, ksize = 3)
-    return laplacian
+    abs = np.absolute(laplacian)
+    #display
+    return abs
 
 def formatImage(image, finalResolution=512):
     image = cv.resize(image, (512,512))
@@ -32,23 +34,3 @@ def formatImage(image, finalResolution=512):
     closed = cv.morphologyEx(opened, cv.MORPH_CLOSE, closeKernel)
 
     return closed
-
-
-
-#load frames 2 to 5
-
-frames = []
-for i in range(2, 6):
-    filepath = "frame%d.jpg" % (i)
-    frame = cv.imread(filepath)
-    modifiedFrame = formatImage(frame)
-#    modifiedFrame = laplacianImage(modifiedFrame)
-    frames.append(modifiedFrame)
-
-#display frames
-for i in range(0, 4):
-    cv.imshow("frame%d" % (i), frames[i])
-
-
-cv.waitKey(10000)
-cv.destroyAllWindows()
