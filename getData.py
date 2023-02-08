@@ -36,10 +36,9 @@ def updateUi():
 
     images = dict()
 
-    images["normal"] = arrayFrame
-    grayFrame = simplifyImage(arrayFrame, videoResolution)
-    images["treshold"] = tresholdImage(grayFrame)
-    images["laplacian"] = laplacianImage(grayFrame)
+    images["normal"] = cv.resize(arrayFrame, (videoResolution, videoResolution))
+    images["treshold"] = formatImage(arrayFrame, videoResolution)
+    images["laplacian"] = laplacianImage(arrayFrame, videoResolution)
     
     for key, image in images.items():
         images[key] = convertToTkinterImage(image)

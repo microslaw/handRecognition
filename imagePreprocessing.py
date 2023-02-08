@@ -15,24 +15,23 @@ def simplifyImage(image, resolution=512):
     
     return resized
 
-def tresholdImage(image):
-    treshold = cv.adaptiveThreshold(image, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 11, 3)
-    return treshold
-
-def laplacianImage(image):
+def laplacianImage(image, finalResolution=512):
+    simplifyImage(image, finalResolution)
     laplacian = cv.Laplacian(image, cv.CV_32F, ksize = 3)
     return laplacian
 
-def formatImage(image):
+def formatImage(image, finalResolution=512):
     image = cv.resize(image, (512,512))
-    kernel = np.ones((5, 5), np.uint8)
+    openKernel = np.ones((3, 3), np.uint8)
+    closeKernel = np.ones((15, 15), np.uint8)
     gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-    blurred = cv.GaussianBlur(gray, (3,3), 0)
-    #treshold = cv.adaptiveThreshold(blurred, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 11, 3)
-    
-    laplacian = cv.Laplacian(blurred, cv.CV_32F, ksize = 15)
+    #blurred = cv.GaussianBlur(gray, (3,3), 0)
+    treshold = cv.adaptiveThreshold(gray, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 11, 3)
+    #blurred = cv.GaussianBlur(treshold, (3,3), 0)
+    opened = cv.morphologyEx(treshold, cv.MORPH_OPEN, openKernel)
+    closed = cv.morphologyEx(opened, cv.MORPH_CLOSE, closeKernel)
 
-    return laplacian
+    return closed
 
 
 
