@@ -20,5 +20,5 @@ def tresholdImage(image):
     return treshold
 
 def laplacianImage(image):
-    laplacian = cv.Laplacian(image, cv.CV_16)
+    laplacian = cv.Laplacian(image, cv.CV_32F, ksize = 3)
     return laplacian

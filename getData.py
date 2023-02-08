@@ -74,7 +74,7 @@ imgHolder3.grid(row = 1, column = 0)
 saveButton = tk.Button(mainWindow, text = "Save", width = 50, height = 10, bg=blue, anchor="se", command = saveFrame)
 saveButton.grid(row = 1, column = 1)
 
-resXres = "%sx%s" % (videoResolution, videoResolution)
+resXres = "%sx%s" % (videoResolution*2, videoResolution*2)
 mainWindow.geometry(resXres)
 mainWindow.configure(bg=black)
 
