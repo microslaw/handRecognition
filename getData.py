@@ -41,8 +41,8 @@ def updateUi():
     images["treshold"] = tresholdImage(grayFrame)
     images["laplacian"] = laplacianImage(grayFrame)
     
-    for key, value in images.items():
-        images[key] = convertToTkinterImage(value)
+    for key, image in images.items():
+        images[key] = convertToTkinterImage(image)
     
     imgHolder1.configure(image = images["normal"])
     imgHolder1.image = images["normal"]
