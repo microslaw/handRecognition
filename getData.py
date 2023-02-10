@@ -4,6 +4,7 @@ import tkinter as tk
 import random
 from imagePreprocessing import *
 from PIL import Image, ImageTk
+import pickle
 
 black = "#000000"
 white = "#ffffff"
@@ -51,12 +52,21 @@ def updateFrameDisplay():
     mainWindow.after(delay, updateFrameDisplay)
 
 def saveFrame():
+    global handShape
     saveFrame.count += 1
     arrayFrame = getRGBFrame()
-    filepath = "%s_%d.jpg" % (handShape, saveFrame.count)
+    filepath = "data/%s_%d.jpg" % (handShape, saveFrame.count)
+
     cv.imwrite(filepath, arrayFrame)
+    
+    countLabel.configure(text = str(saveFrame.count+1))
     nextImage()
-saveFrame.count = 0
+    with open("data/count.pickle", "wb") as savePickle:
+        pickle.dump(saveFrame.count, savePickle)
+
+with open("data/count.pickle", "rb") as loadPickle:
+    saveFrame.count = pickle.load(loadPickle)
+
 
 def getHandShape():
     handShapes = ["rock", "paper", "scissors", "unknown"]
@@ -68,14 +78,14 @@ def getHandShape():
 getHandShape.previous = "unknown"
 
 def nextImage():
-    global handShape, classLabel
+    global handShape
     handShape = getHandShape()
     classLabel.configure(text = handShape)
 
 handShape = getHandShape()
 
 def createUI():
-    global mainWindow, cap, imgHolders, saveButton, skipButton, classLabel, handShape
+    global mainWindow, cap, imgHolders, saveButton, skipButton, classLabel, countLabel, handShape
 
     cap = cv.VideoCapture(0)
     mainWindow = tk.Tk()
@@ -94,13 +104,13 @@ def createUI():
     classLabel = tk.Label(mainWindow, text = handShape, width=10, height=3, bg=blue, fg=white, borderwidth=3, justify="center")
     classLabel.grid(row = 1, column = 1)
 
-    countLabel = tk.Label(mainWindow, text = handShape, width=10, height=3, bg=blue, fg=white, borderwidth=3, justify="center")
+    countLabel = tk.Label(mainWindow, text = str(saveFrame.count+1), width=10, height=3, bg=blue, fg=white, borderwidth=3, justify="center")
     countLabel.grid(row = 1, column = 2)
 
     saveButton = tk.Button(mainWindow, text = "Save", width=10, height=3,  bg=blue, fg=white, borderwidth=3, justify="center", command = saveFrame)
     saveButton.grid(row = 2, column = 1)
 
-    skipButton = tk.Button(mainWindow, text = "skip", width=10, height=3, bg=blue, fg=white, borderwidth=3, justify="center", command = nextImage)
+    skipButton = tk.Button(mainWindow, text = "Skip", width=10, height=3, bg=blue, fg=white, borderwidth=3, justify="center", command = nextImage)
     skipButton.grid(row = 2, column = 2   )
     
     resXres = "%sx%s" % (videoResolution*2, videoResolution*2)
