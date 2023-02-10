@@ -2,8 +2,8 @@ import cv2 as cv
 import numpy as np
 
 #grayscale, blur, 
-def simplifyImage(image, resolution=512):
-    image = cv.resize(image, (512,512))
+def simplifyImage(image, finalResolution=512):
+    image = cv.resize(image, (finalResolution, finalResolution))
     kernel = np.ones((5, 5), np.uint8)
 
     gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
@@ -11,7 +11,7 @@ def simplifyImage(image, resolution=512):
     
     closed = cv.morphologyEx(blurred, cv.MORPH_CLOSE, kernel)
     opened = cv.morphologyEx(closed, cv.MORPH_OPEN, kernel)
-    resized = cv.resize(opened, (resolution, resolution))
+    resized = cv.resize(opened, (finalResolution, finalResolution))
     
     return resized
 
@@ -19,8 +19,9 @@ def laplacianImage(image, finalResolution=512):
     simplifyImage(image, finalResolution)
     laplacian = cv.Laplacian(image, cv.CV_32F, ksize = 3)
     abs = np.absolute(laplacian)
-    #display
-    return abs
+    display = np.uint8(abs)
+    resized = cv.resize(display, (finalResolution, finalResolution))
+    return resized
 
 def formatImage(image, finalResolution=512):
     image = cv.resize(image, (finalResolution, finalResolution))

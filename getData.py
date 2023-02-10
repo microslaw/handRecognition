@@ -42,7 +42,7 @@ def updateFrameDisplay():
 
     images["normal"] = cv.resize(arrayFrame, (videoResolution, videoResolution))
     images["treshold"] = formatImage(arrayFrame, videoResolution)
-    images["simple"] = laplacianImage(arrayFrame, videoResolution)
+    images["laplacian"] = laplacianImage(arrayFrame, videoResolution)
     
     for key, image in images.items():
         images[key] = convertToTkinterImage(image)
@@ -90,7 +90,7 @@ def createUI():
     cap = cv.VideoCapture(0)
     mainWindow = tk.Tk()
 
-    imgHolders = {"normal": None, "treshold": None, "simple": None}
+    imgHolders = {"normal": None, "treshold": None, "laplacian": None}
 
     imgHolders["normal"] = tk.Label(mainWindow, width = videoResolution, height = videoResolution, bg=black, anchor="se")
     imgHolders["normal"].grid(row = 0, column = 0)
@@ -98,8 +98,8 @@ def createUI():
     imgHolders["treshold"] = tk.Label(mainWindow, width = videoResolution, height = videoResolution, bg=black, anchor="ne")
     imgHolders["treshold"].grid(row = 1, column = 0, rowspan=4)
     
-    imgHolders["simple"] = tk.Label(mainWindow, width = videoResolution, height = videoResolution, bg=black, anchor="sw")
-    imgHolders["simple"].grid(row = 0, column = 1, columnspan=2)
+    imgHolders["laplacian"] = tk.Label(mainWindow, width = videoResolution, height = videoResolution, bg=black, anchor="sw")
+    imgHolders["laplacian"].grid(row = 0, column = 1, columnspan=2)
 
     classLabel = tk.Label(mainWindow, text = handShape, width=10, height=3, bg=blue, fg=white, borderwidth=3, justify="center")
     classLabel.grid(row = 1, column = 1)
