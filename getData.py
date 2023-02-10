@@ -42,7 +42,7 @@ def updateFrameDisplay():
 
     images["normal"] = cv.resize(arrayFrame, (videoResolution, videoResolution))
     images["treshold"] = formatImage(arrayFrame, videoResolution)
-    images["simple"] = simplifyImage(arrayFrame, videoResolution)
+    images["simple"] = laplacianImage(arrayFrame, videoResolution)
     
     for key, image in images.items():
         images[key] = convertToTkinterImage(image)
