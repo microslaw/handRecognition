@@ -104,7 +104,7 @@ def createUI():
     classLabel = tk.Label(mainWindow, text = handShape, width=10, height=3, bg=blue, fg=white, borderwidth=3, justify="center")
     classLabel.grid(row = 1, column = 1)
 
-    countLabel = tk.Label(mainWindow, text = str(saveFrame.count+1), width=10, height=3, bg=blue, fg=white, borderwidth=3, justify="center")
+    countLabel = tk.Label(mainWindow, text =str(saveFrame.count+1), width=10, height=3, bg=blue, fg=white, borderwidth=3, justify="center")
     countLabel.grid(row = 1, column = 2)
 
     saveButton = tk.Button(mainWindow, text = "Save", width=10, height=3,  bg=blue, fg=white, borderwidth=3, justify="center", command = saveFrame)
