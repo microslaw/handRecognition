@@ -35,7 +35,6 @@ def convertToTkinterImage(frame):
 
 
 def updateFrameDisplay():
-    global imgHolder
     arrayFrame = getRGBFrame()
 
     images = dict()

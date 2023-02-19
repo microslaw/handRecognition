@@ -17,9 +17,9 @@ def createModel():
 
 def trainModel(trainImages, trainLabels):
     model = createModel()
-    print(trainImages.shape, trainLabels.shape)
+    print(trainImages[0].shape, trainLabels[0].shape)
     model.fit(x = trainImages, y = trainLabels, epochs = 5, batch_size = 50)
-    model.save("v1.h5")
+    return model
     
 
 def loadDataset():
@@ -29,8 +29,10 @@ def loadDataset():
     trainLabels = labels[:int(len(labels)*trainTestSplit)]
     testImages = images[int(len(images)*trainTestSplit):]
     testLabels = labels[int(len(labels)*trainTestSplit):]
-    print("loaded")
-    print(trainImages.shape, trainLabels.shape)
-    print("size returned")
     
     return trainImages, trainLabels, testImages, testLabels
+
+
+trainImages, trainLabels, testImages, testLabels = loadDataset()
+newModel = trainModel(trainImages, trainLabels)
+newModel.save("v2.h5")
